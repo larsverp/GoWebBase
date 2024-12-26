@@ -1,0 +1,2 @@
+-- Dump your initial database ddl in this file.
+-- It will be setup when running docker compose up for the first time.

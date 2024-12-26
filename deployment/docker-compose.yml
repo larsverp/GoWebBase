@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:14-alpine
+    ports:
+      - 5433:5432
+    volumes:
+      - ./ddl.sql:/docker-entrypoint-initdb.d/ddl.sql
+      - ./db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=your_postgres_password
+      - POSTGRES_USER=your_postgres_user
+      - POSTGRES_DB=your_postgres_db
