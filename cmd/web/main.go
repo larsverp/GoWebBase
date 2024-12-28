@@ -1,13 +1,16 @@
 package main
 
 import (
+	"context"
 	"example.com/go-web-base/cmd/web/handler"
 	"example.com/go-web-base/internal/application"
+	"example.com/go-web-base/internal/session"
 	"fmt"
 	"github.com/joho/godotenv"
 	"log"
 	"net/http"
 	"os"
+	"time"
 )
 
 func main() {
@@ -29,6 +32,15 @@ func main() {
 	}
 
 	h := handler.BaseHandler{App: app}
+
+	go func() {
+		ticker := time.NewTicker(1 * time.Hour)
+
+		for {
+			go session.PurgeOldSessionsFromDB(context.Background(), app)
+			<-ticker.C
+		}
+	}()
 
 	mux := http.NewServeMux()
 
